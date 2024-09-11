@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\илья\\Source\\Repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\WebApplication1.csproj": {}
+    "C:\\Users\\илья\\source\\repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\WebApplication1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\илья\\Source\\Repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\WebApplication1.csproj": {
+    "C:\\Users\\илья\\source\\repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\илья\\Source\\Repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\WebApplication1.csproj",
+        "projectUniqueName": "C:\\Users\\илья\\source\\repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "C:\\Users\\илья\\Source\\Repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\WebApplication1.csproj",
+        "projectPath": "C:\\Users\\илья\\source\\repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\WebApplication1.csproj",
         "packagesPath": "C:\\Users\\илья\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\илья\\Source\\Repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\obj\\",
+        "outputPath": "C:\\Users\\илья\\source\\repos\\Hitrov-Ilya-KT-42-21\\WebApplication1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\илья\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,6 +46,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[5.3.12, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
