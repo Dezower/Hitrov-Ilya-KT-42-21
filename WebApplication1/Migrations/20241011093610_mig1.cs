@@ -50,6 +50,20 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "cd_Facultys",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Facultys_name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    TeacherId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cd_Facultys_faculty_id", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Teachers",
                 columns: table => new
                 {
@@ -60,7 +74,7 @@ namespace WebApplication1.Migrations
                     Teacher_Patronomical = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false, comment: "Отчество преподователя"),
                     DegreeId = table.Column<int>(type: "int", nullable: true),
                     PostId = table.Column<int>(type: "int", nullable: true),
-                    FacultyId = table.Column<int>(type: "int", nullable: false),
+                    FacultyId = table.Column<int>(type: "int", nullable: true),
                     Teacher_phone = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: false, comment: "Номер преподователя")
                 },
                 constraints: table =>
@@ -73,29 +87,15 @@ namespace WebApplication1.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Facultys_id",
+                        column: x => x.FacultyId,
+                        principalTable: "cd_Facultys",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
                         name: "FK_Post_id",
                         column: x => x.PostId,
                         principalTable: "posts",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "cd_Facultys",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Facultys_name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_cd_Facultys_faculty_id", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Facultys_id",
-                        column: x => x.TeacherId,
-                        principalTable: "Teachers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -136,7 +136,8 @@ namespace WebApplication1.Migrations
                 name: "IX_cd_Facultys_TeacherId",
                 table: "cd_Facultys",
                 column: "TeacherId",
-                unique: true);
+                unique: true,
+                filter: "[TeacherId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_cd_workload_DisciplineId",
@@ -162,13 +163,22 @@ namespace WebApplication1.Migrations
                 name: "idx_Teachers_fk_post_id",
                 table: "Teachers",
                 column: "PostId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_cd_Facultys_Teachers_TeacherId",
+                table: "cd_Facultys",
+                column: "TeacherId",
+                principalTable: "Teachers",
+                principalColumn: "id",
+                onDelete: ReferentialAction.SetNull);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "cd_Facultys");
+            migrationBuilder.DropForeignKey(
+                name: "FK_cd_Facultys_Teachers_TeacherId",
+                table: "cd_Facultys");
 
             migrationBuilder.DropTable(
                 name: "cd_workload");
@@ -181,6 +191,9 @@ namespace WebApplication1.Migrations
 
             migrationBuilder.DropTable(
                 name: "AcademicDegrees");
+
+            migrationBuilder.DropTable(
+                name: "cd_Facultys");
 
             migrationBuilder.DropTable(
                 name: "posts");
