@@ -35,8 +35,8 @@ namespace WebApplication1.Database.Configuration
             builder.ToTable(TableName).HasOne(p => p.AcademicDegrees).WithMany().HasForeignKey(p => p.DegreeId)
                 .HasConstraintName("FK_AcademicDegrees_id").OnDelete(DeleteBehavior.Cascade);
 
-            builder.ToTable(TableName).HasOne(p => p.Facultys).WithOne(p=>p.Teacher).HasForeignKey<Facultys>(p => p.TeacherId)
-                .HasConstraintName("FK_Facultys_id").OnDelete(DeleteBehavior.Cascade);
+            builder.ToTable(TableName).HasOne(p => p.Facultys).WithMany().HasForeignKey(p => p.FacultyId)
+                .HasConstraintName("FK_Facultys_id").OnDelete(DeleteBehavior.SetNull);
 
             builder.ToTable(TableName).HasIndex(p => p.PostId, $"idx_{TableName}_fk_post_id");
             builder.ToTable(TableName).HasIndex(p => p.DegreeId, $"idx_{TableName}_fk_academicdegree_id");
@@ -44,7 +44,6 @@ namespace WebApplication1.Database.Configuration
 
             builder.Navigation(p => p.Posts).AutoInclude();
             builder.Navigation(p => p.AcademicDegrees).AutoInclude();
-            builder.Navigation(p => p.Facultys).AutoInclude();
         }
     }
 }

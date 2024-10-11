@@ -12,7 +12,7 @@ using WebApplication1.Database;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(TeacherDbContext))]
-    [Migration("20241004110142_mig1")]
+    [Migration("20241011093610_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace WebApplication1.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -82,14 +82,15 @@ namespace WebApplication1.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("Facultys_name");
 
-                    b.Property<int>("TeacherId")
+                    b.Property<int?>("TeacherId")
                         .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("pk_cd_Facultys_faculty_id");
 
                     b.HasIndex("TeacherId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[TeacherId] IS NOT NULL");
 
                     b.HasIndex(new[] { "TeacherId" }, "idx_cd_Facultys_fk_teacher_id");
 
@@ -131,7 +132,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("FacultyId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -209,11 +209,9 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Models.Facultys", b =>
                 {
                     b.HasOne("WebApplication1.Models.Teachers", "Teacher")
-                        .WithOne("Facultys")
+                        .WithOne()
                         .HasForeignKey("WebApplication1.Models.Facultys", "TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Facultys_id");
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Teacher");
                 });
@@ -226,6 +224,12 @@ namespace WebApplication1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_AcademicDegrees_id");
 
+                    b.HasOne("WebApplication1.Models.Facultys", "Facultys")
+                        .WithMany()
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_Facultys_id");
+
                     b.HasOne("WebApplication1.Models.Posts", "Posts")
                         .WithMany()
                         .HasForeignKey("PostId")
@@ -233,6 +237,8 @@ namespace WebApplication1.Migrations
                         .HasConstraintName("FK_Post_id");
 
                     b.Navigation("AcademicDegrees");
+
+                    b.Navigation("Facultys");
 
                     b.Navigation("Posts");
                 });
@@ -256,12 +262,6 @@ namespace WebApplication1.Migrations
                     b.Navigation("Disciplines");
 
                     b.Navigation("Teachers");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Teachers", b =>
-                {
-                    b.Navigation("Facultys")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

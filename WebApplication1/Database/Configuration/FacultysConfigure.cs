@@ -20,14 +20,12 @@ namespace WebApplication1.Database.Configuration
             builder.Property(x => x.Name).IsRequired().HasColumnName("Facultys_name")
                 .HasColumnType(ColumnType.String).HasMaxLength(100);
 
-            builder.ToTable(TableName).HasOne(x => x.Teacher).WithOne(y => y.Facultys).HasForeignKey<Teachers>(x=>x.FacultyId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.ToTable(TableName).HasOne(x => x.Teacher).WithOne().HasForeignKey<Facultys>(x => x.TeacherId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.ToTable(TableName).HasIndex(x => x.TeacherId,$"idx_{TableName}_fk_teacher_id");
 
             builder.Navigation(p => p.Teacher).AutoInclude();
-
         }
     }
 }

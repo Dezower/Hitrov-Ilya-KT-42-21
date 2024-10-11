@@ -30,7 +30,7 @@ namespace WebApplication1.Database
 
             modelBuilder.ApplyConfiguration(new DisciplineConfigure());
 
-            modelBuilder.ApplyConfiguration(new  FacultysConfigure());
+            modelBuilder.ApplyConfiguration(new FacultysConfigure());
 
             modelBuilder.ApplyConfiguration(new PostConfigure());
 
